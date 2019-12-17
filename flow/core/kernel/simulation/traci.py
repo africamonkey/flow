@@ -138,7 +138,7 @@ class TraCISimulation(KernelSimulation):
                     summary_out = os.path.join(
                         sim_params.summary_path,
                         "{0}-summary.xml".format(network.name))
-                    sumo_call.append("--summary")
+                    sumo_call.append("--summary-output")
                     sumo_call.append(summary_out)
 
                 logging.info(" Starting SUMO on port " + str(port))
