@@ -29,11 +29,14 @@ from flow.controllers.base_routing_controller import BaseRouter
 from flow.controllers.routing_controllers import ContinuousRouter, \
     GridRouter, BayBridgeRouter
 
+from flow.controllers.ttc_controller import TTCController
+
 __all__ = [
     "RLController", "BaseController", "BaseLaneChangeController", "BaseRouter",
     "CFMController", "BCMController", "OVMController", "LinearOVM",
     "IDMController", "SimCarFollowingController", "FollowerStopper",
     "PISaturation", "StaticLaneChanger", "SimLaneChangeController",
     "ContinuousRouter", "GridRouter", "BayBridgeRouter", "LACController",
-    "GippsController"
+    "GippsController",
+    "TTCController"
 ]
