@@ -397,7 +397,8 @@ class SimParams(object):
                  sight_radius=25,
                  show_radius=False,
                  pxpm=2,
-                 color_vehicles=True):
+                 color_vehicles=True,
+                 summary_path=None):
         """Instantiate SimParams."""
         self.sim_step = sim_step
         self.render = render
@@ -408,6 +409,7 @@ class SimParams(object):
         self.pxpm = pxpm
         self.show_radius = show_radius
         self.color_vehicles = color_vehicles
+        self.summary_path = summary_path
 
 
 class AimsunParams(SimParams):

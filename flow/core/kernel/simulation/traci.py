@@ -132,6 +132,15 @@ class TraCISimulation(KernelSimulation):
                 sumo_call.append("--collision.check-junctions")
                 sumo_call.append("true")
 
+                # output summary
+                if sim_params.summary_path is not None:
+                    ensure_dir(sim_params.summary_path)
+                    summary_out = os.path.join(
+                        sim_params.summary_path,
+                        "{0}-summary.xml".format(network.name))
+                    sumo_call.append("--summary")
+                    sumo_call.append(summary_out)
+
                 logging.info(" Starting SUMO on port " + str(port))
                 logging.debug(" Cfg file: " + str(network.cfg))
                 if sim_params.num_clients > 1:
