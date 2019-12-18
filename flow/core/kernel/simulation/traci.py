@@ -141,6 +141,15 @@ class TraCISimulation(KernelSimulation):
                     sumo_call.append("--summary-output")
                     sumo_call.append(summary_out)
 
+                # output tripinfo
+                if sim_params.tripinfo_path is not None:
+                    ensure_dir(sim_params.tripinfo_path)
+                    tripinfo_out = os.path.join(
+                        sim_params.tripinfo_path,
+                        "{0}-tripinfo.xml".format(network.name))
+                    sumo_call.append("--tripinfo-output")
+                    sumo_call.append(tripinfo_out)
+
                 logging.info(" Starting SUMO on port " + str(port))
                 logging.debug(" Cfg file: " + str(network.cfg))
                 if sim_params.num_clients > 1:

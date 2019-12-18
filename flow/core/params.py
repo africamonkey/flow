@@ -575,7 +575,8 @@ class SumoParams(SimParams):
                  print_warnings=True,
                  teleport_time=-1,
                  num_clients=1,
-                 summary_path=None):
+                 summary_path=None,
+                 tripinfo_path=None):
         """Instantiate SumoParams."""
         super(SumoParams, self).__init__(
             sim_step, render, restart_instance, emission_path, save_render,
@@ -589,6 +590,7 @@ class SumoParams(SimParams):
         self.teleport_time = teleport_time
         self.num_clients = num_clients
         self.summary_path = summary_path
+        self.tripinfo_path = tripinfo_path
 
 
 class EnvParams:
