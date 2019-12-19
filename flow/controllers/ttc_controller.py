@@ -4,7 +4,6 @@ from flow.controllers.base_controller import BaseController
 
 
 MAX_DECEL = 4.5
-TTC_THRESHOLD = 4
 CONSECUTIVE_GREATER_THRESHOLD = 2
 DEBUG = False
 
@@ -12,6 +11,7 @@ DEBUG = False
 class TTCController(BaseController):
     def __init__(self,
                  veh_id,
+                 ttc_threshold,
                  v0=30,
                  T=1,
                  a=1,
@@ -40,6 +40,7 @@ class TTCController(BaseController):
         self.dt = dt
         self.go_action = False
         self.greater_threshold = 0
+        self.ttc_threshold = ttc_threshold
 
     def get_accel(self, env):
         v = env.k.vehicle.get_speed(self.veh_id)
@@ -71,7 +72,7 @@ class TTCController(BaseController):
                               min_v_oth,
                               min_ori_oth))
 
-            if min_ttc > TTC_THRESHOLD:
+            if min_ttc > self.ttc_threshold:
                 self.greater_threshold += 1
                 if self.greater_threshold >= CONSECUTIVE_GREATER_THRESHOLD:
                     self.go_action = True
