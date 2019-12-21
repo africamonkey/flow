@@ -45,10 +45,10 @@ class TTCController(BaseController):
     def get_accel(self, env):
         v = env.k.vehicle.get_speed(self.veh_id)
         h = env.k.vehicle.get_headway(self.veh_id)
+        edg = env.k.vehicle.get_edge(self.veh_id)
         pos = env.k.vehicle.get_position(self.veh_id)
         ori = env.k.vehicle.get_orientation(self.veh_id)
-        length = env.k.vehicle.get_length(self.veh_id)
-        if pos <= 25:
+        if edg == 'SS2M' and pos <= 25:
             h = 25.1 - pos
         else:
             min_ttc = 1000
