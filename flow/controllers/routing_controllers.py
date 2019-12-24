@@ -125,3 +125,34 @@ class BayBridgeRouter(ContinuousRouter):
             new_route = super().choose_route(env)
 
         return new_route
+
+
+class RandomRouter(BaseRouter):
+    """A router used to continuously re-route of the vehicle in a closed ring.
+
+    This class is useful if vehicles are expected to continuously follow the
+    same route, and repeat said route once it reaches its end.
+
+    Usage
+    -----
+    See base class for usage example.
+    """
+
+    def choose_route(self, env):
+        """See parent class.
+
+        Adopt one of the current edge's routes if about to leave the network.
+        """
+        edge = env.k.vehicle.get_edge(self.veh_id)
+        current_route = env.k.vehicle.get_route(self.veh_id)
+        origin_route = ('SS2M',)
+        if edge == 'SS2M' and current_route == origin_route:
+            selected = random.randint(0, 2)
+            if selected == 0:
+                new_route = ('SS2M', 'M2NN')
+            elif selected == 1:
+                new_route = ('SS2M', 'M2WW')
+            else:
+                new_route = ('SS2M', 'M2EE')
+            return new_route
+        return None

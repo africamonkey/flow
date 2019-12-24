@@ -49,7 +49,11 @@ def is_segment_intersect(l1, l2):
 def intersect_point(a, b):
     s1 = cross_product(b.a, a.a, b.b)
     s2 = cross_product(b.a, a.b, b.b)
-    return Point((a.b.x * s1 - a.a.x * s2) / (s1 - s2), (a.b.y * s1 - a.a.y * s2) / (s1 - s2))
+    try:
+        ret = Point((a.b.x * s1 - a.a.x * s2) / (s1 - s2), (a.b.y * s1 - a.a.y * s2) / (s1 - s2))
+    except ZeroDivisionError:
+        return None
+    return ret
 
 
 def det(a, b):
