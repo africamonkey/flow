@@ -48,40 +48,38 @@ class TTCController(BaseController):
         edg = env.k.vehicle.get_edge(self.veh_id)
         pos = env.k.vehicle.get_position(self.veh_id)
         ori = env.k.vehicle.get_orientation(self.veh_id)
-        if edg == 'SS2M' and pos <= 25:
-            h = 25.1 - pos
+
+        min_ttc = 1000
+        min_ori_oth = None
+        min_v_oth = None
+        for oth_id in env.k.vehicle.get_ids():
+            ori_oth = env.k.vehicle.get_orientation(oth_id)
+            v_oth = env.k.vehicle.get_speed(oth_id)
+            if oth_id != self.veh_id:
+                ttc = ttc_utils.car_ttc(ori, ori_oth, v, v_oth)
+                if min_ttc > ttc:
+                    min_ttc = ttc
+                    min_ori_oth = ori_oth
+                    min_v_oth = v_oth
+
+        if DEBUG:
+            print("min_ttc {0}, v {1}, ori {2}, v_oth {3}, ori_oth {4}"
+                  .format(min_ttc,
+                          v,
+                          ori,
+                          min_v_oth,
+                          min_ori_oth))
+
+        if min_ttc > self.ttc_threshold:
+            self.greater_threshold += 1
+            if self.greater_threshold >= CONSECUTIVE_GREATER_THRESHOLD:
+                self.go_action = True
         else:
-            min_ttc = 1000
-            min_ori_oth = None
-            min_v_oth = None
-            for oth_id in env.k.vehicle.get_ids():
-                ori_oth = env.k.vehicle.get_orientation(oth_id)
-                v_oth = env.k.vehicle.get_speed(oth_id)
-                if oth_id != self.veh_id:
-                    ttc = ttc_utils.car_ttc(ori, ori_oth, v, v_oth)
-                    if min_ttc > ttc:
-                        min_ttc = ttc
-                        min_ori_oth = ori_oth
-                        min_v_oth = v_oth
+            self.greater_threshold = 0
+            # self.go_action = False
 
-            if DEBUG:
-                print("min_ttc {0}, v {1}, ori {2}, v_oth {3}, ori_oth {4}"
-                      .format(min_ttc,
-                              v,
-                              ori,
-                              min_v_oth,
-                              min_ori_oth))
-
-            if min_ttc > self.ttc_threshold:
-                self.greater_threshold += 1
-                if self.greater_threshold >= CONSECUTIVE_GREATER_THRESHOLD:
-                    self.go_action = True
-            else:
-                self.greater_threshold = 0
-                # self.go_action = False
-
-            if not self.go_action:
-                return - MAX_DECEL
+        if not self.go_action:
+            return - MAX_DECEL
         # in order to deal with ZeroDivisionError
         if abs(h) < 1e-3:
             h = 1e-3
