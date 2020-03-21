@@ -59,7 +59,7 @@ class PRMController(BaseController):
         rou = env.k.vehicle.get_route(self.veh_id)
 
         if edg == 'SS2M' and pos <= self.d_nudge:
-            v_e = (1. - pos / self.d_nudge) * self.discount * self.desire_v
+            v_e = (1. - (pos / self.d_nudge) ** 2) * self.discount * self.desire_v
         else:
             max_risk = 0
             max_risk_v_oth = 0
