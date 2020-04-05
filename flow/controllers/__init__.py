@@ -31,6 +31,7 @@ from flow.controllers.routing_controllers import ContinuousRouter, \
 
 from flow.controllers.ttc_controller import TTCController
 from flow.controllers.prm_controller import PRMController
+from flow.controllers.die_controller import DieController
 
 __all__ = [
     "RLController", "BaseController", "BaseLaneChangeController", "BaseRouter",
@@ -41,5 +42,6 @@ __all__ = [
     "GippsController",
     "TTCController",
     "PRMController",
+    "DieController",
     "RandomRouter"
 ]
